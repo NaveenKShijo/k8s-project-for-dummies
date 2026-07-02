@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service 
+
+metadata:
+  name: prometheus 
+
+spec:
+  selector:
+    app: prometheus-pod 
+  
+  ports:
+    - port: 9090
+      targetPort: 9090
+      nodePort: 30200
+
+  type: NodePort 

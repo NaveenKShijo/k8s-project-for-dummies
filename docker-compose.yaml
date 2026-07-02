@@ -1,0 +1,39 @@
+services:
+  user-kuber:
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile
+    ports:
+      - "8001:8000"
+    
+  order-kuber:
+    build:
+      context: .
+      dockerfile: order-service/Dockerfile
+    ports:
+      - "8000:8000"
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus1
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+  consul:
+    image: hashicorp/consul:latest
+    container_name: consul
+    ports:
+      - "8500:8500"
+
+  rabbit_mq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"     # AMQP(messaging) port
+      - "15672:15672"   # Management UI
+    restart: unless-stopped
