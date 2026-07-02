@@ -11,8 +11,9 @@ SERVICE_ID = 'order-service-1'
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    register_service('order_service', SERVICE_ID, 'order-kuber', '8000') # Running on compose file
-    # register_service('order_service', SERVICE_ID, 'order-service', '8000') # running on kubernetes (service.yaml)
+    # register_service('order_service', SERVICE_ID, 'order-kuber', '8000') # Running on compose file
+    register_service('order_service', SERVICE_ID, 'order-service', '8000') # running on kubernetes (service.yaml)
+    # Because, in service.yaml, the name of service is 'order-service'
     yield
     deregister_service(SERVICE_ID)
 

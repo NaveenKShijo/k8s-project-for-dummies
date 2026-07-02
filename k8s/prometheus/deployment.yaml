@@ -22,3 +22,22 @@ spec:
           image: prom/prometheus:latest
           ports:
             - containerPort: 9090
+
+          # telling the program where the config file lives
+          args:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+
+          # Mount the ConfigMap as a file inside the container
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml      # only mount this specific key as a file
+
+      # Define the volume — points to the ConfigMap
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            name: prometheus-config        # must match ConfigMap metadata.name
+
+            

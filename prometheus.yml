@@ -1,3 +1,5 @@
+# It is a config file to configure the behavior of prometheus
+
 global:
   scrape_interval: 15s
   evaluation_interval: 15s

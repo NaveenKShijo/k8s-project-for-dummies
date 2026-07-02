@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: kubernetesproject-user-kuber:latest
+          image: user-k8s:v1
           imagePullPolicy: Never
           ports:
             - containerPort: 8000

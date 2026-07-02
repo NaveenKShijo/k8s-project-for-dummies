@@ -27,8 +27,10 @@ def consume():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    register_service('user_service', SERVICE_ID, 'user-kuber', 8000) # running on compose file
-    # register_service('user_service', SERVICE_ID, 'user-service', 8000) # running on kubernetes (service.yaml)
+    # register_service('user_service', SERVICE_ID, 'user-kuber', 8000) # running on compose file
+    register_service('user_service', SERVICE_ID, 'user-service', 8000) # running on kubernetes (service.yaml)
+    # Because, in service.yaml, the name of service is 'order-service'
+
     thread = threading.Thread(target = consume, daemon= True)
     thread.start()
     yield

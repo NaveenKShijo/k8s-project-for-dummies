@@ -8,15 +8,13 @@ LABEL description="Fastapi based order microservice"
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 
 
 WORKDIR /order-home/
-COPY order-service/requirements.txt .
+COPY requirements.txt .
 
 # RUN apt-get update && apt-get install -y gcc build-essential && rm -rf /var/lib/apt/lists/*
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY order-service/ .
-COPY consul_helper.py .
-COPY metrics.py .
+COPY . .
 
-EXPOSE 8000
+EXPOSE 8000    
 CMD ["uvicorn", "orders:app", "--host", "0.0.0.0", "--port", "8000"]

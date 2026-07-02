@@ -5,23 +5,23 @@ metadata:
   name: order-service
 
 spec:
-  replicas: 2
+  replicas: 5
 
   # to find the pods of this deployment
   selector: 
     matchLabels:
-      app: order-service
+      app: order-service-app
   
   # creating pods of this deployment
   template:
     metadata:
       labels:
-        app: order-service 
+        app: order-service-app
 
     spec:
       containers:
         - name: order-service
-          image: kubernetesproject-order-kuber:latest
+          image: order-k8s:v1
           imagePullPolicy: Never
           ports:
             - containerPort: 8000
