@@ -16,14 +16,22 @@ def callback(ch, methods, properties, body):
     ch.basic_ack(delivery_tag = methods.delivery_tag)
 
 def consume():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host = "localhost"))
-    channel = connection.channel()
-    channel.exchange_declare(exchange = 'order_exchange', exchange_type= 'topic', durable = True)
-    channel.queue_declare(queue = 'users_queue', durable = True)
-    channel.queue_bind(exchange = 'order_exchange', queue = 'users_queue', routing_key='order.*')
-    channel.basic_consume(queue = 'users_queue', on_message_callback=callback)
-    channel.start_consuming()
-    print("Waiting for messages in the queue")
+    import time
+    retry_delay = 5  # seconds between retries
+    while True:
+        try:
+            print(f"[RabbitMQ] Connecting to rabbitmq...")
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host = "rabbitmq"))
+            channel = connection.channel()
+            channel.exchange_declare(exchange = 'order_exchange', exchange_type= 'topic', durable = True)
+            channel.queue_declare(queue = 'users_queue', durable = True)
+            channel.queue_bind(exchange = 'order_exchange', queue = 'users_queue', routing_key='order.*')
+            channel.basic_consume(queue = 'users_queue', on_message_callback=callback)
+            print("[RabbitMQ] Connected. Waiting for messages in the queue...")
+            channel.start_consuming()   # blocks here — callback fires on each message
+        except Exception as e:
+            print(f"[RabbitMQ] Consumer error: {e}. Retrying in {retry_delay}s...")
+            time.sleep(retry_delay)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

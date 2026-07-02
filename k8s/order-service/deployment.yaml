@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: order-k8s:v1
+          image: order-k8s:v3
           imagePullPolicy: Never
           ports:
             - containerPort: 8000

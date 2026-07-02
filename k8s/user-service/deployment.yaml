@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: user-k8s:v1
+          image: user-k8s:v2
           imagePullPolicy: Never
           ports:
             - containerPort: 8000

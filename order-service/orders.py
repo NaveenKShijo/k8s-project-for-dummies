@@ -39,7 +39,7 @@ def get_users():
 
 @app.get("/rabbitmq")
 def message_queues():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host = 'localhost'))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host = 'rabbitmq'))
     channel = connection.channel()
     sample_order = {'order_id': 12, 'product': 'pen', 'price':10}
     channel.exchange_declare(exchange = 'order_exchange', exchange_type= 'topic', durable = True)
