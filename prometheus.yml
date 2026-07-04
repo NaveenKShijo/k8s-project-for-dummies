@@ -1,4 +1,4 @@
-# It is a config file to configure the behavior of prometheus
+# It is a config file to configure the behavior of prometheus. It belongs exclusively to docker-compose workflow
 
 global:
   scrape_interval: 15s
